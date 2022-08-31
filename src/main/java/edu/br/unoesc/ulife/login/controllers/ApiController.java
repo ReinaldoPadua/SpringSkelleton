@@ -1,6 +1,7 @@
 package edu.br.unoesc.ulife.login.controllers;
 
 import edu.br.unoesc.ulife.login.repositories.UserRepository;
+import edu.br.unoesc.ulife.login.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,12 +16,11 @@ import java.util.List;
 public class ApiController {
 
     @Autowired
-    UserRepository userRepository;
+    UserService userService;
 
     @GetMapping("/users")
     public ResponseEntity<List<User>> getUsers() {
 
-        List<User> users = userRepository.findAll();
-        return ResponseEntity.ok(users);
+        return userService.getActiveUsers();
     }
 }

@@ -1,11 +1,19 @@
 package edu.br.unoesc.ulife.login.controllers;
 
+import edu.br.unoesc.ulife.login.entities.User;
+import edu.br.unoesc.ulife.login.repositories.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
+import java.util.List;
+
 @Controller
 public class LoginController {
+
+    @Autowired
+    UserRepository userRepository;
 
     @GetMapping("/login")
     public String login(Model model) {
@@ -17,9 +25,11 @@ public class LoginController {
         return "home";
     }
 
-    @GetMapping("/hello")
+    @GetMapping("/users")
     public String hello(Model model) {
-        return "hello";
+        List<User> users = userRepository.findAll();
+        model.addAttribute("users", users);
+        return "user";
     }
 
     @GetMapping("/logout")
