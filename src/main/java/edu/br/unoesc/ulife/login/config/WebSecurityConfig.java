@@ -25,6 +25,9 @@ public class WebSecurityConfig {
         http
                 .authorizeRequests()
                 .antMatchers("/h2/**").permitAll()
+                .antMatchers("/js/**").permitAll()
+                .antMatchers("/css/**").permitAll()
+                .antMatchers("/assets/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()

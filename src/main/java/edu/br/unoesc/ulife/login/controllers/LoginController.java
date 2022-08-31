@@ -17,6 +17,11 @@ public class LoginController {
         return "home";
     }
 
+    @GetMapping("/hello")
+    public String hello(Model model) {
+        return "hello";
+    }
+
     @GetMapping("/logout")
     public String logout(Model model) {
         return "redirect:/login";
