@@ -10,3 +10,9 @@ INSERT INTO  AUTHORITIES_USERS (USUARIO_ID, AUTHORITY_ID) VALUES (1,1);
 INSERT INTO  AUTHORITIES_USERS (USUARIO_ID, AUTHORITY_ID) VALUES (2,2);
 INSERT INTO  AUTHORITIES_USERS (USUARIO_ID, AUTHORITY_ID) VALUES (3,2);
 INSERT INTO  AUTHORITIES_USERS (USUARIO_ID, AUTHORITY_ID) VALUES (4,2);
+
+INSERT INTO PRODUTOS(id, nome, descrição, preço) VALUES(1,'Cerveja','Cerveja Heineken', 5.50);
+INSERT INTO PRODUTOS(id, nome, descrição, preço) VALUES(2,'Vodka','Vodka Absolut', 10.50);
+INSERT INTO PRODUTOS(id, nome, descrição, preço) VALUES(3,'Whisky','Whisky Jack Daniels', 15.50);
+INSERT INTO PRODUTOS(id, nome, descrição, preço) VALUES(4,'Vinho','Vinho Chileno', 20.50);
+INSERT INTO PRODUTOS(id, nome, descrição, preço) VALUES(5,'Cachaça','Cachaça 51', 25.50);
