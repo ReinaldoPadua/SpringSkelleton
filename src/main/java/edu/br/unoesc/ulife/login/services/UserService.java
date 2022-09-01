@@ -15,6 +15,7 @@ public class UserService {
     @Autowired
     UserRepository userRepository;
 
+
     public ResponseEntity<List<User>> getActiveUsers(){
 
         List<User> users = userRepository.findAll();
@@ -26,4 +27,5 @@ public class UserService {
         return ResponseEntity.ok(actUsers);
 
     }
+
 }
