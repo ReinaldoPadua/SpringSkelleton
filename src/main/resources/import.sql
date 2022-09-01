@@ -16,4 +16,8 @@ INSERT INTO PRODUTOS(id, nome, descricao, preco) VALUES(2,'Vodka','Vodka Absolut
 INSERT INTO PRODUTOS(id, nome, descricao, preco) VALUES(3,'Whisky','Whisky Jack Daniels', 15.50);
 INSERT INTO PRODUTOS(id, nome, descricao, preco) VALUES(4,'Vinho','Vinho Chileno', 20.50);
 INSERT INTO PRODUTOS(id, nome, descricao, preco) VALUES(5,'Cachaça','Cachaça 51', 25.50);
-insert into produtos (id, nome, descricao, preco) values (6, 'Cerveja', 'Cerveja Skol', 5.50);
+INSERT INTO produtos (id, nome, descricao, preco) values (6, 'Cerveja', 'Cerveja Skol', 5.50);
+INSERT INTO produtos (id, nome, descricao, preco) values (7, 'Vodka', 'Vodka Smirnoff', 10.50);
+INSERT INTO produtos (id, nome, descricao, preco) values (8, 'Whisky', 'Whisky Johnnie Walker', 15.50);
+INSERT INTO produtos (id, nome, descricao, preco) values (9, 'Vinho', 'Vinho Argentino', 20.50);
+
