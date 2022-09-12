@@ -1,7 +1,7 @@
-package edu.br.unoesc.ulife.login.services;
+package edu.br.unoesc.app.login.services;
 
-import edu.br.unoesc.ulife.login.entities.User;
-import edu.br.unoesc.ulife.login.repositories.UserRepository;
+import edu.br.unoesc.app.login.entities.User;
+import edu.br.unoesc.app.login.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;

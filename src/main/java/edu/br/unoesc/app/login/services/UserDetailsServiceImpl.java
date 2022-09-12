@@ -1,10 +1,10 @@
-package edu.br.unoesc.ulife.login.services;
+package edu.br.unoesc.app.login.services;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import edu.br.unoesc.ulife.login.entities.Authority;
-import edu.br.unoesc.ulife.login.repositories.UserRepository;
+import edu.br.unoesc.app.login.entities.Authority;
+import edu.br.unoesc.app.login.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -24,7 +24,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
 
-        edu.br.unoesc.ulife.login.entities.User appUser =
+        edu.br.unoesc.app.login.entities.User appUser =
                 userRepository.findByUsername(username).orElseThrow(() -> new UsernameNotFoundException("Não existe usuario"));
 
         List grantList = new ArrayList();

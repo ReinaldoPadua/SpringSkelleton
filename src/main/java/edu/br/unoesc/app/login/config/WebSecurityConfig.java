@@ -1,7 +1,7 @@
-package edu.br.unoesc.ulife.login.config;
+package edu.br.unoesc.app.login.config;
 
 
-import edu.br.unoesc.ulife.login.services.UserDetailsServiceImpl;
+import edu.br.unoesc.app.login.services.UserDetailsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -28,6 +28,7 @@ public class WebSecurityConfig {
                 .antMatchers("/js/**").permitAll()
                 .antMatchers("/css/**").permitAll()
                 .antMatchers("/assets/**").permitAll()
+                .antMatchers("/api/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()

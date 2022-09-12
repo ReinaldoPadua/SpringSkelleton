@@ -1,4 +1,4 @@
-package edu.br.unoesc.ulife.login.config;
+package edu.br.unoesc.app.login.config;
 
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.security.crypto.password.PasswordEncoder;

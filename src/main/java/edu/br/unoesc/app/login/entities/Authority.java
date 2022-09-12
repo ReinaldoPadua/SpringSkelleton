@@ -1,8 +1,4 @@
-package edu.br.unoesc.ulife.login.entities;
-
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+package edu.br.unoesc.app.login.entities;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -11,9 +7,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 @Entity
-@Getter
-@Setter
-@NoArgsConstructor
+
 public class Authority {
 
     @Id
@@ -22,5 +16,21 @@ public class Authority {
 
     @Column
     private String authority;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getAuthority() {
+        return authority;
+    }
+
+    public void setAuthority(String authority) {
+        this.authority = authority;
+    }
 
 }
