@@ -11,7 +11,7 @@ public class Imagen extends  EntidadeAbstrata{
 
     private String nome;
 
-    private String arquivo;
+    private String urlArquivo;
 
     @ManyToOne
     @JoinColumn(name="produto_id", nullable=false)
@@ -25,12 +25,12 @@ public class Imagen extends  EntidadeAbstrata{
         this.nome = nome;
     }
 
-    public String getArquivo() {
-        return arquivo;
+    public String getUrlArquivo() {
+        return urlArquivo;
     }
 
-    public void setArquivo(String arquivo) {
-        this.arquivo = arquivo;
+    public void setUrlArquivo(String urlArquivo) {
+        this.urlArquivo = urlArquivo;
     }
 
     public Produto getProduto() {
