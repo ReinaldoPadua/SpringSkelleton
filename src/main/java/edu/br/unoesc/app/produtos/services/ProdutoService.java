@@ -116,7 +116,7 @@ public class ProdutoService {
     private ProdutoDTO registrarProduto(Produto produtoQueVaiSerGravado, ProdutoDTO produtoDTO ){
 
         try{
-            Categoria categoria = categoriaRepository.findById(produtoDTO.getCategoriaId()).get();
+            Categoria categoria = categoriaRepository.findById(produtoDTO.getCategoriaId());
 
             if(categoria==null)
                 throw new RuntimeException(MENSAGEM_CATEGORIA_NAO_EXISTE);

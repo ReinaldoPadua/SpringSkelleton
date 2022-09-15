@@ -7,8 +7,10 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface CategoriaRepository extends CrudRepository<Categoria, Long> {
+public interface CategoriaRepository extends CrudRepository<Categoria, String>  {
 
+    public Categoria findById(Long Id);
 
+    public Categoria findByNome(String nome);
     public List<Categoria> findAll();
 }

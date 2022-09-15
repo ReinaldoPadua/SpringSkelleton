@@ -24,8 +24,28 @@ public class ProdutoRestController {
         return ResponseEntity.ok(listaDeProdutos);
     }
 
-    @GetMapping("/produtos/{produtoId}")
+    @GetMapping("/produtos/{produtoId}/")
     public ResponseEntity buscarProdutoPorId(@PathVariable Long produtoId) {
+        try {
+            ProdutoDTO produtoDTO = produtoService.buscaProdutoPorId(produtoId);
+            return ResponseEntity.ok(produtoDTO);
+        }catch (Exception e){
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+        }
+    }
+
+    @GetMapping("/produtos/{produtoId}/images/{imageId}")
+    public ResponseEntity buscarProdutoPorImageid(@PathVariable Long produtoId) {
+        try {
+            ProdutoDTO produtoDTO = produtoService.buscaProdutoPorId(produtoId);
+            return ResponseEntity.ok(produtoDTO);
+        }catch (Exception e){
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+        }
+    }
+
+    @GetMapping("/produtos/{produtoId}/images/")
+    public ResponseEntity buscarProdutoPorImage(@PathVariable Long produtoId) {
         try {
             ProdutoDTO produtoDTO = produtoService.buscaProdutoPorId(produtoId);
             return ResponseEntity.ok(produtoDTO);
