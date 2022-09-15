@@ -32,7 +32,7 @@ public class ImagenService {
         return imagenDTO;
     }
     public ImagensDTO buscaImagenPorId(Long Id){
-        Imagen imagen = ImagenRepository.findById(Id);
+        Imagen imagen = ImagenRepository.findById(Id).getId();
         if(imagen==null)
             throw new RuntimeException("MENSAGEM_PRODUTO_NAO_EXISTE");
         ImagensDTO imagenDTO = new ImagensDTO(imagen);
