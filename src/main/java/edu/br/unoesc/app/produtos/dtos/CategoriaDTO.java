@@ -9,6 +9,10 @@ public class CategoriaDTO {
 
     private String nome;
 
+    public CategoriaDTO() {
+        super();
+    }
+
     public CategoriaDTO(Categoria categoria) {
         super();
         if (categoria.getId()!=null)

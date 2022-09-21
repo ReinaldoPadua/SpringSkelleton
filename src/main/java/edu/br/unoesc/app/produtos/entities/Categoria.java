@@ -7,6 +7,7 @@ import javax.persistence.*;
 @Table(name = "produto_categoria")
 public class Categoria extends  EntidadeAbstrata{
 
+
     private String nome;
 
     public String getNome() {

@@ -19,7 +19,7 @@ public class CategoriaRestController {
     @GetMapping("/categorias")
     public ResponseEntity buscarTodasCategorias() {
         List<CategoriaDTO> listaDeCategorias = categoriaService.listarTodas();
-        return ResponseEntity.ok(categoriaService.listarTodas());
+        return ResponseEntity.ok(listaDeCategorias);
     }
 
     @GetMapping("/categorias/{categoriaId}")
