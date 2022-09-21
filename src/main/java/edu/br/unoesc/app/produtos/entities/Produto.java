@@ -1,9 +1,17 @@
 package edu.br.unoesc.app.produtos.entities;
 
 
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 import javax.persistence.*;
 import java.util.List;
 
+
+@Setter
+@Getter
+@NoArgsConstructor
 @Entity
 @Table(name = "produto")
 public class Produto extends  EntidadeAbstrata {
@@ -19,45 +27,6 @@ public class Produto extends  EntidadeAbstrata {
     private Categoria categoria;
 
     @OneToMany(mappedBy = "produto", cascade = CascadeType.ALL)
-    private List<Imagen> imagens;
+    private List<Imagem> imagens;
 
-    public String getNome() {
-        return nome;
-    }
-
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
-
-    public String getDescricao() {
-        return descricao;
-    }
-
-    public void setDescricao(String descricao) {
-        this.descricao = descricao;
-    }
-
-    public Double getValor() {
-        return valor;
-    }
-
-    public void setValor(Double valor) {
-        this.valor = valor;
-    }
-
-    public Categoria getCategoria() {
-        return categoria;
-    }
-
-    public void setCategoria(Categoria categoria) {
-        this.categoria = categoria;
-    }
-
-    public List<Imagen> getImagens() {
-        return imagens;
-    }
-
-    public void setImagens(List<Imagen> imagens) {
-        this.imagens = imagens;
-    }
 }

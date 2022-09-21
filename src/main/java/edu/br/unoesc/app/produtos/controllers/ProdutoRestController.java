@@ -1,7 +1,9 @@
 package edu.br.unoesc.app.produtos.controllers;
 
+import edu.br.unoesc.app.produtos.dtos.ImagemDTO;
 import edu.br.unoesc.app.produtos.dtos.ProdutoDTO;
-import edu.br.unoesc.app.produtos.entities.Produto;
+import edu.br.unoesc.app.produtos.entities.Imagem;
+import edu.br.unoesc.app.produtos.services.ProdutoImagemService;
 import edu.br.unoesc.app.produtos.services.ProdutoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -11,20 +13,19 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/produtos")
 public class ProdutoRestController {
 
     @Autowired
     ProdutoService produtoService;
 
-
-    @GetMapping("/produtos")
+    @GetMapping("/")
     public ResponseEntity buscarTodosProdutos() {
         List<ProdutoDTO> listaDeProdutos = produtoService.listarTodos();
         return ResponseEntity.ok(listaDeProdutos);
     }
 
-    @GetMapping("/produtos/{produtoId}")
+    @GetMapping("/{produtoId}")
     public ResponseEntity buscarProdutoPorId(@PathVariable Long produtoId) {
         try {
             ProdutoDTO produtoDTO = produtoService.buscaProdutoPorId(produtoId);
@@ -34,7 +35,7 @@ public class ProdutoRestController {
         }
     }
 
-    @PostMapping("/produtos")
+    @PostMapping("/")
     public ResponseEntity salvarNovoProduto(@RequestBody ProdutoDTO novoProdutoDTO) {
         try {
             novoProdutoDTO = produtoService.salvarNovoProduto(novoProdutoDTO);
@@ -44,7 +45,7 @@ public class ProdutoRestController {
         }
     }
 
-    @PatchMapping("/produtos")
+    @PatchMapping("/")
     public ResponseEntity atualizarProduto(@RequestBody ProdutoDTO produtoAtualizadoDTO) {
         try {
             produtoAtualizadoDTO = produtoService.atualizarProduto(produtoAtualizadoDTO);
@@ -54,7 +55,7 @@ public class ProdutoRestController {
         }
     }
 
-    @DeleteMapping("/produtos/{produtoId}")
+    @DeleteMapping("/{produtoId}")
     public ResponseEntity deletarProdutoPorId(@PathVariable Long produtoId) {
         try {
             produtoService.deletarProduto(produtoId);

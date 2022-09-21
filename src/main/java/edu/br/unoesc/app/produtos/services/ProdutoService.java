@@ -1,10 +1,13 @@
 package edu.br.unoesc.app.produtos.services;
 
+import edu.br.unoesc.app.produtos.dtos.ImagemDTO;
 import edu.br.unoesc.app.produtos.dtos.ProdutoDTO;
+import edu.br.unoesc.app.produtos.entities.Imagem;
 import edu.br.unoesc.app.produtos.entities.Produto;
 import edu.br.unoesc.app.produtos.entities.Categoria;
 import edu.br.unoesc.app.produtos.repositories.CategoriaRepository;
 import edu.br.unoesc.app.produtos.repositories.ProdutoRepository;
+import edu.br.unoesc.app.util.Phraseology;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,37 +23,28 @@ import static java.time.Period.*;
 @Service
 public class ProdutoService {
 
-    public static final String MENSAGEM_PRODUTO_EXISTENTE = "Esse produto ja existe na base de dados";
-
-    public static final String MENSAGEM_PRODUTO_NAO_EXISTE = "Esse produto nao existe na base de dados";
-
-    public static final String MENSAGEM_NAO_PODE_ALTERAR_PRODUTO =
-            "Não é possivel Alterar um produto que ultrapassou o prazo de alteração";
-
-    public static final String MENSAGEM_CATEGORIA_NAO_EXISTE = "Categoria não existe na base de dados";
-
-    public static final int PRAZO_EM_DIAS_PARA_ALTERACAO = 2;
-
     @Autowired
     ProdutoRepository produtoRepository;
 
     @Autowired
     CategoriaRepository categoriaRepository;
     public List<ProdutoDTO> listarTodos(){
-        List<ProdutoDTO> produtosDTO = new ArrayList<ProdutoDTO>();
+        List<ProdutoDTO> listaProdutosDTO = new ArrayList<ProdutoDTO>();
         List<Produto> produtos= produtoRepository.findAll();
         produtos.forEach(produto -> {
-            ProdutoDTO produtoDTO = new ProdutoDTO(produto);
-            produtosDTO.add(produtoDTO);
+            ProdutoDTO produtoDTO = new ProdutoDTO(produto.getId(),produto.getNome(),produto.getDescricao(),
+                    produto.getValor(),produto.getCategoria().getId(),produto.getCategoria().getNome());
+            listaProdutosDTO.add(produtoDTO);
         });
-        return produtosDTO;
+        return listaProdutosDTO;
     }
 
     public ProdutoDTO buscaProdutoPorId(Long produtoId){
         Produto produto = produtoRepository.findById(produtoId);
         if(produto==null)
-            throw new RuntimeException(MENSAGEM_PRODUTO_NAO_EXISTE);
-        ProdutoDTO produtoDTO = new ProdutoDTO(produto);
+            throw new RuntimeException(Phraseology.MENSAGEM_PRODUTO_NAO_EXISTE);
+        ProdutoDTO produtoDTO = new ProdutoDTO(produto.getId(),produto.getNome(),produto.getDescricao(),
+                produto.getValor(),produto.getCategoria().getId(),produto.getCategoria().getNome());
         return produtoDTO;
     }
 
@@ -61,7 +55,7 @@ public class ProdutoService {
         if(produtoDTO.getId()!=null){
               Produto verificaSeExisteProduto = produtoRepository.findById(produtoDTO.getId());
               if(verificaSeExisteProduto!=null)
-                  throw new RuntimeException(MENSAGEM_PRODUTO_EXISTENTE);
+                  throw new RuntimeException(Phraseology.MENSAGEM_PRODUTO_EXISTENTE);
 
         }
 
@@ -73,15 +67,15 @@ public class ProdutoService {
     public ProdutoDTO atualizarProduto(ProdutoDTO produtoDTO) {
 
         if(produtoDTO.getId()==null)
-            throw new RuntimeException(MENSAGEM_PRODUTO_NAO_EXISTE);
+            throw new RuntimeException(Phraseology.MENSAGEM_PRODUTO_NAO_EXISTE);
 
         Produto produtoQueVaiSerAtualizado = produtoRepository.findById(produtoDTO.getId());
 
         if(produtoQueVaiSerAtualizado==null){
-            throw new RuntimeException(MENSAGEM_PRODUTO_NAO_EXISTE);
+            throw new RuntimeException(Phraseology.MENSAGEM_PRODUTO_NAO_EXISTE);
         }
 
-        boolean podeAlterar = this.validarAlteracaoProduto(produtoQueVaiSerAtualizado,PRAZO_EM_DIAS_PARA_ALTERACAO);
+        boolean podeAlterar = this.validarAlteracaoProduto(produtoQueVaiSerAtualizado,Phraseology.PRAZO_EM_DIAS_PARA_ALTERACAO);
 
         if(podeAlterar) {
 
@@ -89,7 +83,7 @@ public class ProdutoService {
 
             return this.registrarProduto(produtoQueVaiSerAtualizado,produtoDTO);
 
-        } else throw new RuntimeException(MENSAGEM_NAO_PODE_ALTERAR_PRODUTO);
+        } else throw new RuntimeException(Phraseology.MENSAGEM_NAO_PODE_ALTERAR_PRODUTO);
 
 
     }
@@ -99,17 +93,17 @@ public class ProdutoService {
         Produto produtoQueVaiSerDeletado = produtoRepository.findById(produtoId);
 
         if(produtoQueVaiSerDeletado==null){
-            throw new RuntimeException(MENSAGEM_PRODUTO_NAO_EXISTE);
+            throw new RuntimeException(Phraseology.MENSAGEM_PRODUTO_NAO_EXISTE);
         }
 
-        boolean podeAlterar = this.validarAlteracaoProduto(produtoQueVaiSerDeletado,PRAZO_EM_DIAS_PARA_ALTERACAO);
+        boolean podeAlterar = this.validarAlteracaoProduto(produtoQueVaiSerDeletado,Phraseology.PRAZO_EM_DIAS_PARA_ALTERACAO);
 
         if(podeAlterar) {
 
             produtoQueVaiSerDeletado.setDataAtualizacao(LocalDateTime.now());
 
             this.produtoRepository.delete(produtoQueVaiSerDeletado);
-        } else throw new RuntimeException(MENSAGEM_NAO_PODE_ALTERAR_PRODUTO);
+        } else throw new RuntimeException(Phraseology.MENSAGEM_NAO_PODE_ALTERAR_PRODUTO);
 
     }
 
@@ -119,12 +113,12 @@ public class ProdutoService {
             Categoria categoria = categoriaRepository.findById(produtoDTO.getCategoriaId()).get();
 
             if(categoria==null)
-                throw new RuntimeException(MENSAGEM_CATEGORIA_NAO_EXISTE);
+                throw new RuntimeException(Phraseology.MENSAGEM_CATEGORIA_NAO_EXISTE);
 
             produtoQueVaiSerGravado.setCategoria(categoria);
 
         }catch (Exception e) {
-            throw new RuntimeException(MENSAGEM_CATEGORIA_NAO_EXISTE);
+            throw new RuntimeException(Phraseology.MENSAGEM_CATEGORIA_NAO_EXISTE,e);
         }
 
         produtoQueVaiSerGravado.setNome(produtoDTO.getNome());
@@ -144,6 +138,7 @@ public class ProdutoService {
         return (diff.getDays()<=prazoEmDiasParaAlteracao) ? true : false;
 
     }
+
 
 
 }
