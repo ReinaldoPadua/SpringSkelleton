@@ -7,10 +7,9 @@ import org.springframework.data.repository.CrudRepository;
 import java.util.List;
 
 @Repository
-public interface ImagenRepository extends CrudRepository<Imagen, Long>  {
+public interface ImagenRepository extends CrudRepository<Imagen, String>  {
 
-    public Imagen findById(Long id);
+    public Imagen findById(Long nome);
+
     public List<Imagen> findAll();
-
-
 }

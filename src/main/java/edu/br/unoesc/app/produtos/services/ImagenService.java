@@ -5,6 +5,8 @@ import edu.br.unoesc.app.produtos.dtos.ImagensDTO;
 import edu.br.unoesc.app.produtos.entities.Imagen;
 import edu.br.unoesc.app.produtos.entities.Produto;
 import edu.br.unoesc.app.produtos.repositories.ImagenRepository;
+import edu.br.unoesc.app.produtos.repositories.ProdutoRepository;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,6 +20,16 @@ import static java.time.Period.between;
 
 @Service
 public class ImagenService {
+    public static final String MENSAGEM_PRODUTO_EXISTENTE = "Esse produto ja existe na base de dados";
+
+    public static final String MENSAGEM_PRODUTO_NAO_EXISTE = "Esse produto nao existe na base de dados";
+
+    public static final String MENSAGEM_NAO_PODE_ALTERAR_PRODUTO =
+            "Não é possivel Alterar um produto que ultrapassou o prazo de alteração";
+
+    public static final String MENSAGEM_CATEGORIA_NAO_EXISTE = "Categoria não existe na base de dados";
+
+    public static final int PRAZO_EM_DIAS_PARA_ALTERACAO = 2;
 
     @Autowired
     ImagenRepository imagenRepository;
@@ -31,8 +43,8 @@ public class ImagenService {
         });
         return imagenDTO;
     }
-    public ImagensDTO buscaImagenPorId(Long Id){
-        Imagen imagen = ImagenRepository.findById(Id).getId();
+    public ImagensDTO buscaImagenPorId(Long imagenId){
+        Imagen imagen = imagenRepository.findById(imagenId);
         if(imagen==null)
             throw new RuntimeException("MENSAGEM_PRODUTO_NAO_EXISTE");
         ImagensDTO imagenDTO = new ImagensDTO(imagen);
@@ -44,7 +56,7 @@ public class ImagenService {
         Imagen imagenQueVaiSerGravado;
 
         if(imagenDTO.getId()!=null){
-            Imagen verificaSeExisteImagen = ImagenRepository.findById(imagenDTO.getId());
+            Imagen verificaSeExisteImagen = imagenRepository.findById(imagenDTO.getId());
             if(verificaSeExisteImagen!=null)
                 throw new RuntimeException("MENSAGEM_PRODUTO_EXISTENTE");
 
@@ -56,60 +68,41 @@ public class ImagenService {
     }
 
     public ImagensDTO atualizarImagen(ImagensDTO imagenDTO) {
+        Imagen imagenQueVaiSerGravado;
 
         if(imagenDTO.getId()==null)
             throw new RuntimeException("MENSAGEM_PRODUTO_NAO_EXISTE");
 
-        Imagen imagenQueVaiSerAtualizado = ImagenRepository.findById(imagenDTO.getId());
+        imagenQueVaiSerGravado = imagenRepository.findById(imagenDTO.getId());
 
-        if(imagenQueVaiSerAtualizado==null){
+        if(imagenQueVaiSerGravado==null)
             throw new RuntimeException("MENSAGEM_PRODUTO_NAO_EXISTE");
-        }
 
-        boolean podeAlterar = this.validarAlteracaoImagen(imagenQueVaiSerAtualizado,"PRAZO_EM_DIAS_PARA_ALTERACAO");
-
-        if(podeAlterar) {
-
-            imagenQueVaiSerAtualizado.setDataAtualizacao(LocalDateTime.now());
-
-            return this.registrarImagen(imagenQueVaiSerAtualizado,imagenDTO);
-
-        } else throw new RuntimeException("MENSAGEM_NAO_PODE_ALTERAR_PRODUTO");
-
-
+        return this.registrarImagen(imagenQueVaiSerGravado,imagenDTO);
     }
 
     public void deletarImagen(Long imagenId){
-
-        Imagen imagenQueVaiSerDeletado = ImagenRepository.findById(imagenId);
-
-        if(imagenQueVaiSerDeletado==null){
+        Imagen imagenQueVaiSerDeletado = imagenRepository.findById(imagenId);
+        if(imagenQueVaiSerDeletado==null)
             throw new RuntimeException("MENSAGEM_PRODUTO_NAO_EXISTE");
-        }
-
-        boolean podeAlterar = this.validarAlteracaoImagen(imagenQueVaiSerDeletado,"PRAZO_EM_DIAS_PARA_ALTERACAO");
-
-        if(podeAlterar) {
-
-            imagenQueVaiSerDeletado.setDataAtualizacao(LocalDateTime.now());
-
-            this.imagenRepository.delete(imagenQueVaiSerDeletado);
-        } else throw new RuntimeException("MENSAGEM_NAO_PODE_ALTERAR_PRODUTO");
+        imagenRepository.delete(imagenQueVaiSerDeletado);
 
     }
 
     private ImagensDTO registrarImagen(Imagen imagenQueVaiSerGravado, ImagensDTO imagenDTO ){
+        try {
+            Imagen imagen = imagenRepository.findById(imagenDTO.getId());
+            if(imagen==null)
+                throw new RuntimeException("MENSAGEM_IMAGEN_NAO_EXISTE");
 
-        ImagenRepository.save(imagenQueVaiSerGravado);
-        imagenDTO.setId(imagenQueVaiSerGravado.getId());
+            imagenQueVaiSerGravado.setProduto(imagen.getProduto());
+        }
+        catch (Exception e){
+            throw new RuntimeException("MENSAGEM_PRODUTO_NAO_EXISTE");
+        }
 
-        return  imagenDTO;
-    }
-    private boolean validarAlteracaoImagen(Produto produto, int prazoEmDiasParaAlteracao){
-
-        Period diff = between(produto.getDataCriacao().toLocalDate(),
-                LocalDate.now());
-        return (diff.getDays()<=prazoEmDiasParaAlteracao) ? true : false;
-
+        imagenQueVaiSerGravado.setUrlArquivo(imagenDTO.getUrlArquivo());
+        imagenRepository.save(imagenQueVaiSerGravado);
+        return new ImagensDTO(imagenQueVaiSerGravado);
     }
 }
