@@ -1,10 +1,63 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head th:replace="/fragments/head.html">
+
+<body class="sb-nav-fixed">
+
+<nav th:replace="/fragments/navbar.html"></nav>
+
+<div id="layoutSidenav">
+    <div th:replace="/fragments/sidebar.html"></div>
+
+    <div id="layoutSidenav_content">
+        <main>
+            <div class="container-fluid px-4">
+                <h1 class="mt-4">Detalhes do Produtos</h1>
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <i class="fas fa-table me-1"></i>
+                        Formulário
+                    </div>
+                    <div class="card-body">
+
+                        <form id="meuForm">
+                            <div class="row mb-3">
+                                <div class="col-md-6">
+                                    <div class="form-floating mb-3 mb-md-0">
+                                        <input class="form-control" id="nome" type="text" />
+                                        <label for="nome">Nome</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-floating">
+                                        <input class="form-control" id="descricao" type="text"  />
+                                        <label for="descricao">Descrição</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-floating mb-3">
+                                <input class="form-control" id="valor" type="number"  />
+                                <label for="valor">Valor</label>
+                            </div>
+
+                            <div class="mt-4 mb-0">
+                                <div class="d-grid"><button type="button" id="salvarBtn" class="btn btn-primary"
+                                                            onclick="salvar()" >Salvar</button></div>
+                            </div>
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+        </main>
+        <footer th:replace="/fragments/footer.html"></footer>
+    </div>
+</div>
+
+<script src="/js/produto-detalhe.js"></script>
+
+
 
 </body>
 </html>

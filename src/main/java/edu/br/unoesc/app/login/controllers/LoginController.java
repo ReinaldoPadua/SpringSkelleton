@@ -30,7 +30,7 @@ public class LoginController {
     @GetMapping("/users")
     public String hello(Model model) {
         List<User> users = userRepository.findAll();
-        model.addAttribute("users", users);
+        model.addAttribute("usuariosAtivos", users);
         return "login/user_view";
     }
 

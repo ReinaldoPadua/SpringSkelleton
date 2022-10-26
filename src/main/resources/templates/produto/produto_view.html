@@ -1,19 +1,36 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
       xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
-<head>
-    <title>Hello Cachorro!</title>
-</head>
-<body>
-<h1>Hello world!</h1>
-<h3>Cachorros:</h3>
-<table>
-    <th:block th:each="dog : ${cachorrosExibidos}">
-        <tr>
-            <td th:text="${dog.name}">...</td>
-        </tr>
-    </th:block>
-</table>
+<head th:replace="/fragments/head.html">
+
+<body class="sb-nav-fixed">
+
+<nav th:replace="/fragments/navbar.html"></nav>
+
+<div id="layoutSidenav">
+    <div th:replace="/fragments/sidebar.html"></div>
+
+    <div id="layoutSidenav_content">
+        <main>
+            <div class="container-fluid px-4">
+                <h1 class="mt-4">Produtos com datatable</h1>
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <i class="fas fa-table me-1"></i>
+                        DataTable Example
+                    </div>
+                    <div class="card-body">
+                        <table id="datatablesProdutos"></table>
+                    </div>
+                </div>
+            </div>
+        </main>
+        <footer th:replace="/fragments/footer.html"></footer>
+    </div>
+</div>
+
+<script src="/js/datatables-simple-demo.js"></script>
+
 
 </body>
 </html>
